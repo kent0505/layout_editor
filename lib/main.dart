@@ -54,31 +54,6 @@ abstract final class Assets {
   ];
 }
 
-class Tile {
-  Tile({
-    this.id = '',
-    this.x = 0,
-    this.y = 0,
-    this.z = 0,
-  });
-
-  String id;
-  final int x;
-  final int y;
-  final int z;
-
-  double get height => 70;
-  double get width => 50;
-}
-
-final class Layout {
-  const Layout({required this.x, required this.y, required this.z});
-
-  final int x;
-  final int y;
-  final int z;
-}
-
 class TestScreen extends StatefulWidget {
   const TestScreen({super.key});
 
@@ -156,9 +131,9 @@ class _TestScreenState extends State<TestScreen> {
 
   void _sortLayouts() {
     layouts.sort((a, b) {
-      if (a.x != b.x) return a.x.compareTo(b.x);
+      if (a.z != b.z) return a.z.compareTo(b.z);
       if (a.y != b.y) return a.y.compareTo(b.y);
-      return a.z.compareTo(b.z);
+      return a.x.compareTo(b.x);
     });
   }
 
@@ -431,4 +406,33 @@ class SvgWidget extends StatelessWidget {
       },
     );
   }
+}
+
+class Tile {
+  Tile({
+    this.id = '',
+    this.x = 0,
+    this.y = 0,
+    this.z = 0,
+  });
+
+  String id;
+  final int x;
+  final int y;
+  final int z;
+
+  double get height => 70;
+  double get width => 50;
+}
+
+final class Layout {
+  const Layout({
+    required this.x,
+    required this.y,
+    required this.z,
+  });
+
+  final int x;
+  final int y;
+  final int z;
 }
