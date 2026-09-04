@@ -156,9 +156,9 @@ class _TestScreenState extends State<TestScreen> {
 
   void _sortLayouts() {
     layouts.sort((a, b) {
-      if (a.z != b.z) return a.z.compareTo(b.z);
+      if (a.x != b.x) return a.x.compareTo(b.x);
       if (a.y != b.y) return a.y.compareTo(b.y);
-      return a.x.compareTo(b.x);
+      return a.z.compareTo(b.z);
     });
   }
 
