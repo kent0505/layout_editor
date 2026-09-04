@@ -87,6 +87,7 @@ class TestScreen extends StatefulWidget {
 }
 
 class _TestScreenState extends State<TestScreen> {
+  final _layoutController = TextEditingController();
   static const int columns = 7;
   static const int rows = 8;
   static const double boardTop = 130;
@@ -96,6 +97,40 @@ class _TestScreenState extends State<TestScreen> {
   final Map<String, String> _tileAssets = {};
   bool get canUndo => _history.isNotEmpty;
   bool get canCopy => layouts.isNotEmpty && layouts.length.isEven;
+
+  @override
+  void dispose() {
+    _layoutController.dispose();
+    super.dispose();
+  }
+
+  void loadLayouts() {
+    final text = _layoutController.text;
+    final regex = RegExp(
+      r'Layout\s*\(\s*x\s*:\s*(-?\d+)\s*,\s*y\s*:\s*(-?\d+)\s*,\s*z\s*:\s*(-?\d+)\s*\)',
+    );
+    final matches = regex.allMatches(text);
+    final parsedLayouts = matches.map((match) {
+      return Layout(
+        x: int.parse(match.group(1)!),
+        y: int.parse(match.group(2)!),
+        z: int.parse(match.group(3)!),
+      );
+    }).toList();
+    if (parsedLayouts.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('No valid Layouts found'),
+        ),
+      );
+      return;
+    }
+    setState(() {
+      layouts = parsedLayouts;
+      _tileAssets.clear();
+      _history.clear();
+    });
+  }
 
   void exportLevel() async {
     final buffer = StringBuffer();
@@ -121,6 +156,7 @@ class _TestScreenState extends State<TestScreen> {
 
   void clearBoard() {
     setState(() {
+      _layoutController.clear();
       layouts.clear();
       _tileAssets.clear();
       _history.clear();
@@ -305,6 +341,22 @@ class _TestScreenState extends State<TestScreen> {
             child: SafeArea(
               child: Row(
                 children: [
+                  SizedBox(
+                    width: 200,
+                    child: TextField(
+                      controller: _layoutController,
+                      maxLines: 3,
+                      decoration: const InputDecoration(
+                        hintText: 'Paste layouts...',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  IconButton(
+                    onPressed: loadLayouts,
+                    icon: const Icon(Icons.upload),
+                  ),
                   Text(
                     'Tiles: ${currentTiles.length}',
                     style: const TextStyle(fontSize: 16, color: Colors.black),
