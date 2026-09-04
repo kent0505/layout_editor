@@ -19,15 +19,9 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
-    - assets/fonts/
     - assets/icons/
-    - assets/sounds/
 
     - assets/icons/animals/
     - assets/icons/eats/
     - assets/icons/flowers/
     - assets/icons/others/
-  fonts:
-    - family: RubikWetPaint
-      fonts:
-        - asset: assets/fonts/RubikWetPaint-Regular.ttf

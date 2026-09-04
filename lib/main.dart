@@ -13,6 +13,16 @@ void main() {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        useMaterial3: false,
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: Color(0xff285A48),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Color(0xffffc771),
+          brightness: Brightness.dark,
+          surface: Color(0xff285A48), // bg color when push
+        ),
+      ),
       home: const TestScreen(),
     ),
   );
@@ -85,6 +95,7 @@ class _TestScreenState extends State<TestScreen> {
   final _random = Random();
   final Map<String, String> _tileAssets = {};
   bool get canUndo => _history.isNotEmpty;
+  bool get canCopy => layouts.isNotEmpty && layouts.length.isEven;
 
   void exportLevel() async {
     final buffer = StringBuffer();
@@ -106,6 +117,14 @@ class _TestScreenState extends State<TestScreen> {
     }
 
     logger(levelString);
+  }
+
+  void clearBoard() {
+    setState(() {
+      layouts.clear();
+      _tileAssets.clear();
+      _history.clear();
+    });
   }
 
   void _saveHistory() {
@@ -292,13 +311,15 @@ class _TestScreenState extends State<TestScreen> {
                   ),
                   IconButton(
                     onPressed: canUndo ? undo : null,
-                    tooltip: 'Undo',
                     icon: const Icon(Icons.undo),
                   ),
                   IconButton(
-                    onPressed: exportLevel,
-                    tooltip: 'Export',
-                    icon: const Icon(Icons.code),
+                    onPressed: canCopy ? exportLevel : null,
+                    icon: const Icon(Icons.copy),
+                  ),
+                  IconButton(
+                    onPressed: clearBoard,
+                    icon: const Icon(Icons.clear),
                   ),
                 ],
               ),
