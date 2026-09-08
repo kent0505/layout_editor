@@ -74,7 +74,8 @@ class _TestScreenState extends State<TestScreen> {
 
   void exportLevel() async {
     final buffer = StringBuffer();
-    buffer.writeln('''import '../models/layout.dart';\n\nconst level1 =[''');
+    buffer.writeln('import \'../models/layout.dart\';');
+    buffer.writeln('const level1 = [');
     for (final layout in layouts) {
       buffer.writeln(
         '  Layout(x: ${layout.x}, y: ${layout.y}, z: ${layout.z}),',
