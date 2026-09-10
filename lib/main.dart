@@ -70,7 +70,11 @@ class _TestScreenState extends State<TestScreen> {
             _currentIndex = index;
           });
         },
-        height: 70,
+        height: 90,
+        labelPadding: EdgeInsets.only(
+          bottom: 24,
+          top: 8,
+        ),
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.layers_outlined),
