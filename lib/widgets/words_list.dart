@@ -87,52 +87,54 @@ class _WordsListState extends State<WordsList> {
           itemBuilder: (context, index) {
             final word = words[index];
 
-            return Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Checkbox(
-                  value: word.learned,
-                  onChanged: (value) async {
-                    setState(() {
-                      word.learned = value ?? false;
-                      if (word.learned) {
-                        _learnedIds.add(word.id);
-                      } else {
-                        _learnedIds.remove(word.id);
-                      }
-                    });
-                    await _storage.saveLearned(_learnedIds);
-                  },
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        word.example,
-                        style: TextStyle(
-                          color: Colors.white.withValues(
-                            alpha: word.learned ? 0.2 : 0.6,
-                          ),
-                          fontSize: 14,
-                          height: 1,
-                        ),
-                      ),
-                      Text(
-                        word.translation,
-                        style: TextStyle(
-                          color: Colors.white.withValues(
-                            alpha: word.learned ? 0.2 : 0.4,
-                          ),
-                          fontSize: 12,
-                          height: 1,
-                        ),
-                      ),
-                    ],
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Row(
+                children: [
+                  Checkbox(
+                    value: word.learned,
+                    onChanged: (value) async {
+                      setState(() {
+                        word.learned = value ?? false;
+                        if (word.learned) {
+                          _learnedIds.add(word.id);
+                        } else {
+                          _learnedIds.remove(word.id);
+                        }
+                      });
+                      await _storage.saveLearned(_learnedIds);
+                    },
                   ),
-                ),
-              ],
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          word.example,
+                          style: TextStyle(
+                            color: Colors.white.withValues(
+                              alpha: word.learned ? 0.2 : 0.6,
+                            ),
+                            fontSize: 14,
+                            height: 1,
+                          ),
+                        ),
+                        Text(
+                          word.translation,
+                          style: TextStyle(
+                            color: Colors.white.withValues(
+                              alpha: word.learned ? 0.2 : 0.4,
+                            ),
+                            fontSize: 12,
+                            height: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             );
           },
         );
