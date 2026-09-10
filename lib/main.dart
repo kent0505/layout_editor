@@ -70,7 +70,7 @@ class _TestScreenState extends State<TestScreen> {
             _currentIndex = index;
           });
         },
-        height: 90,
+        height: 80,
         labelPadding: EdgeInsets.only(
           bottom: 24,
           top: 8,

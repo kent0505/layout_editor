@@ -17,6 +17,8 @@ class _WordsListState extends State<WordsList> {
 
   Set<int> _learnedIds = {};
 
+  List<Word>? _words;
+
   @override
   void initState() {
     super.initState();
@@ -31,7 +33,15 @@ class _WordsListState extends State<WordsList> {
     for (final word in words) {
       word.learned = _learnedIds.contains(word.id);
     }
+    _words = words;
     return words;
+  }
+
+  void shuffleWords() {
+    if (_words == null) return;
+    setState(() {
+      _words!.shuffle();
+    });
   }
 
   List<Word> parseMarkdown(String markdown) {
@@ -61,84 +71,93 @@ class _WordsListState extends State<WordsList> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Word>>(
-      future: _wordsFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return SizedBox();
-        }
+    return Stack(
+      children: [
+        FutureBuilder<List<Word>>(
+          future: _wordsFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return SizedBox();
+            }
 
-        if (snapshot.hasError) {
-          return Center(
-            child: Text(
-              'Error: ${snapshot.error}',
-              style: const TextStyle(
-                color: Colors.red,
-              ),
-            ),
-          );
-        }
-
-        final words = snapshot.data ?? [];
-
-        return ListView.builder(
-          padding: const EdgeInsets.all(16),
-          itemCount: words.length,
-          itemBuilder: (context, index) {
-            final word = words[index];
-
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: Row(
-                children: [
-                  Checkbox(
-                    value: word.learned,
-                    onChanged: (value) async {
-                      setState(() {
-                        word.learned = value ?? false;
-                        if (word.learned) {
-                          _learnedIds.add(word.id);
-                        } else {
-                          _learnedIds.remove(word.id);
-                        }
-                      });
-                      await _storage.saveLearned(_learnedIds);
-                    },
+            if (snapshot.hasError) {
+              return Center(
+                child: Text(
+                  'Error: ${snapshot.error}',
+                  style: const TextStyle(
+                    color: Colors.red,
                   ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          word.example,
-                          style: TextStyle(
-                            color: Colors.white.withValues(
-                              alpha: word.learned ? 0.2 : 0.6,
-                            ),
-                            fontSize: 14,
-                            height: 1,
-                          ),
-                        ),
-                        Text(
-                          word.translation,
-                          style: TextStyle(
-                            color: Colors.white.withValues(
-                              alpha: word.learned ? 0.2 : 0.4,
-                            ),
-                            fontSize: 12,
-                            height: 1,
-                          ),
-                        ),
-                      ],
+                ),
+              );
+            }
+
+            final words = _words ?? [];
+
+            return ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount: words.length,
+              itemBuilder: (context, index) {
+                final word = words[index];
+
+                return Row(
+                  children: [
+                    Checkbox(
+                      value: word.learned,
+                      onChanged: (value) async {
+                        setState(() {
+                          word.learned = value ?? false;
+                          if (word.learned) {
+                            _learnedIds.add(word.id);
+                          } else {
+                            _learnedIds.remove(word.id);
+                          }
+                        });
+                        await _storage.saveLearned(_learnedIds);
+                      },
                     ),
-                  ),
-                ],
-              ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            word.example,
+                            style: TextStyle(
+                              color: Colors.white.withValues(
+                                alpha: word.learned ? 0.2 : 0.6,
+                              ),
+                              fontSize: 14,
+                              height: 1,
+                            ),
+                          ),
+                          Text(
+                            word.translation,
+                            style: TextStyle(
+                              color: Colors.white.withValues(
+                                alpha: word.learned ? 0.2 : 0.4,
+                              ),
+                              fontSize: 12,
+                              height: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              },
             );
           },
-        );
-      },
+        ),
+        Positioned(
+          right: 20,
+          bottom: 20,
+          child: IconButton(
+            onPressed: shuffleWords,
+            icon: Icon(Icons.shuffle),
+          ),
+        ),
+      ],
     );
   }
 }
