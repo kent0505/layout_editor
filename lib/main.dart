@@ -3,7 +3,9 @@ import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'widgets/english.dart';
 import 'widgets/layout_editor.dart';
+import 'widgets/logictics.dart';
 import 'widgets/words_list.dart';
 
 void logger(Object message) {
@@ -53,6 +55,8 @@ class _TestScreenState extends State<TestScreen> {
       key: ValueKey('phrasal_verbs'),
       path: 'assets/phrasal_verbs.md',
     ),
+    English(),
+    Logictics(),
   ];
 
   @override
@@ -79,9 +83,19 @@ class _TestScreenState extends State<TestScreen> {
             label: 'Words',
           ),
           NavigationDestination(
-            icon: Icon(Icons.link_outlined),
-            selectedIcon: Icon(Icons.link),
+            icon: Icon(Icons.list_outlined),
+            selectedIcon: Icon(Icons.list),
             label: 'Phrasal verbs',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.table_rows_outlined),
+            selectedIcon: Icon(Icons.table_rows),
+            label: 'English',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.local_shipping_outlined),
+            selectedIcon: Icon(Icons.local_shipping),
+            label: 'Logistics',
           ),
         ],
       ),
