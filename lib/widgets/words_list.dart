@@ -234,14 +234,18 @@ class WordsStorage {
 
   final String key;
 
+  static late SharedPreferences prefs;
+
+  static Future<void> init() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
   Future<Set<int>> loadLearned() async {
-    final prefs = await SharedPreferences.getInstance();
     final values = prefs.getStringList(key) ?? [];
     return values.map(int.parse).toSet();
   }
 
   Future<void> saveLearned(Set<int> learned) async {
-    final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList(
       key,
       learned.map((id) => id.toString()).toList(),

@@ -15,6 +15,8 @@ void logger(Object message) {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await WordsStorage.init();
+
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
