@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WordsList extends StatefulWidget {
@@ -33,7 +34,7 @@ class _WordsListState extends State<WordsList> {
     for (final word in words) {
       word.learned = _learnedIds.contains(word.id);
     }
-    _words = words;
+    _words = words..shuffle();
     return words;
   }
 
@@ -55,7 +56,7 @@ class _WordsListState extends State<WordsList> {
       final content = trimmed.substring(1, trimmed.length - 1);
       final cells = content.split('|').map((e) => e.trim()).toList();
       if (cells.length < 2) continue;
-      final example = cells[0].replaceAll('**', '').replaceAll('*', '').trim();
+      final example = cells[0].trim();
       final translation = cells[1].trim();
       if (example.toLowerCase() == 'example') continue;
       words.add(
@@ -99,51 +100,19 @@ class _WordsListState extends State<WordsList> {
               itemBuilder: (context, index) {
                 final word = words[index];
 
-                return Row(
-                  children: [
-                    Checkbox(
-                      value: word.learned,
-                      onChanged: (value) async {
-                        setState(() {
-                          word.learned = value ?? false;
-                          if (word.learned) {
-                            _learnedIds.add(word.id);
-                          } else {
-                            _learnedIds.remove(word.id);
-                          }
-                        });
-                        await _storage.saveLearned(_learnedIds);
-                      },
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            word.example,
-                            style: TextStyle(
-                              color: Colors.white.withValues(
-                                alpha: word.learned ? 0.2 : 0.6,
-                              ),
-                              fontSize: 14,
-                              height: 1,
-                            ),
-                          ),
-                          Text(
-                            word.translation,
-                            style: TextStyle(
-                              color: Colors.white.withValues(
-                                alpha: word.learned ? 0.2 : 0.4,
-                              ),
-                              fontSize: 12,
-                              height: 1,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                return _WordTile(
+                  word: word,
+                  onChanged: (value) async {
+                    setState(() {
+                      word.learned = value ?? false;
+                      if (word.learned) {
+                        _learnedIds.add(word.id);
+                      } else {
+                        _learnedIds.remove(word.id);
+                      }
+                    });
+                    await _storage.saveLearned(_learnedIds);
+                  },
                 );
               },
             );
@@ -155,6 +124,81 @@ class _WordsListState extends State<WordsList> {
           child: IconButton(
             onPressed: shuffleWords,
             icon: Icon(Icons.shuffle),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _WordTile extends StatefulWidget {
+  const _WordTile({
+    required this.word,
+    required this.onChanged,
+  });
+
+  final Word word;
+  final void Function(bool?) onChanged;
+
+  @override
+  State<_WordTile> createState() => __WordTileState();
+}
+
+class __WordTileState extends State<_WordTile> {
+  Word get word => widget.word;
+
+  bool isVisible = false;
+
+  void onTap() {
+    setState(() {
+      isVisible = !isVisible;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Checkbox(
+          value: word.learned,
+          onChanged: (value) {
+            widget.onChanged.call(value);
+          },
+        ),
+        const SizedBox(width: 8),
+        GestureDetector(
+          onTap: onTap,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 14,
+                child: MarkdownBody(
+                  data: word.example,
+                  styleSheet: MarkdownStyleSheet(
+                    p: TextStyle(
+                      color: Colors.white.withValues(
+                        alpha: word.learned ? 0.2 : 0.6,
+                      ),
+                      fontSize: 14,
+                      height: 1,
+                    ),
+                  ),
+                ),
+              ),
+              Text(
+                word.translation,
+                style: TextStyle(
+                  color: isVisible
+                      ? Colors.white.withValues(
+                          alpha: word.learned ? 0.2 : 0.4,
+                        )
+                      : Colors.transparent,
+                  fontSize: 12,
+                  height: 1,
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -186,9 +230,9 @@ class Word {
 }
 
 class WordsStorage {
-  final String key;
-
   WordsStorage({required this.key});
+
+  final String key;
 
   Future<Set<int>> loadLearned() async {
     final prefs = await SharedPreferences.getInstance();
