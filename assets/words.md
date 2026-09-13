@@ -401,7 +401,7 @@
 |They climbed the **mount**.|гора; устанавливать|
 |I don't have **much** time.|много; значительно|
 |My shoes are covered in **mud**.|грязь; ил|
-|I nearly **missed** the bus.|почти|
+|I **nearly** missed the bus.|почти|
 |Your room is very **neat**.|аккуратный; опрятный|
 |It doesn't **necessarily** mean that he is wrong.|обязательно; непременно|
 |Be careful with the **needle**.|игла|

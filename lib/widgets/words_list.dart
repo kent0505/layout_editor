@@ -20,6 +20,9 @@ class _WordsListState extends State<WordsList> {
 
   List<Word>? _words;
 
+  bool _showOnlyHighlighted = false;
+  bool _showTranslationFirst = false;
+
   @override
   void initState() {
     super.initState();
@@ -102,6 +105,8 @@ class _WordsListState extends State<WordsList> {
 
                 return _WordTile(
                   word: word,
+                  showOnlyHighlighted: _showOnlyHighlighted,
+                  showTranslationFirst: _showTranslationFirst,
                   onChanged: (value) async {
                     setState(() {
                       word.learned = value ?? false;
@@ -121,9 +126,31 @@ class _WordsListState extends State<WordsList> {
         Positioned(
           right: 20,
           bottom: 20,
-          child: IconButton(
-            onPressed: shuffleWords,
-            icon: Icon(Icons.shuffle),
+          child: Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    _showOnlyHighlighted = !_showOnlyHighlighted;
+                  });
+                },
+                icon: Icon(
+                  _showOnlyHighlighted
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    _showTranslationFirst = !_showTranslationFirst;
+                  });
+                },
+                icon: Icon(
+                  _showTranslationFirst ? Icons.translate : Icons.g_translate,
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -134,10 +161,14 @@ class _WordsListState extends State<WordsList> {
 class _WordTile extends StatefulWidget {
   const _WordTile({
     required this.word,
+    required this.showOnlyHighlighted,
+    required this.showTranslationFirst,
     required this.onChanged,
   });
 
   final Word word;
+  final bool showOnlyHighlighted;
+  final bool showTranslationFirst;
   final void Function(bool?) onChanged;
 
   @override
@@ -147,13 +178,13 @@ class _WordTile extends StatefulWidget {
 class __WordTileState extends State<_WordTile> {
   Word get word => widget.word;
 
-  bool isVisible = false;
-
-  void onTap() {
-    setState(() {
-      isVisible = !isVisible;
-    });
+  String get displayedExample {
+    if (!widget.showOnlyHighlighted) return word.example;
+    final match = RegExp(r'\*\*(.*?)\*\*').firstMatch(word.example);
+    return match?.group(1) ?? word.example;
   }
+
+  bool isVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -167,37 +198,83 @@ class __WordTileState extends State<_WordTile> {
         ),
         const SizedBox(width: 8),
         GestureDetector(
-          onTap: onTap,
+          onTapDown: (_) {
+            setState(() {
+              isVisible = true;
+            });
+          },
+          onTapUp: (_) {
+            setState(() {
+              isVisible = false;
+            });
+          },
+          onTapCancel: () {
+            setState(() {
+              isVisible = false;
+            });
+          },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 14,
-                child: MarkdownBody(
-                  data: word.example,
-                  styleSheet: MarkdownStyleSheet(
-                    p: TextStyle(
-                      color: Colors.white.withValues(
-                        alpha: word.learned ? 0.2 : 0.6,
+              if (widget.showTranslationFirst)
+                Text(
+                  word.translation,
+                  style: TextStyle(
+                    color: Colors.white.withValues(
+                      alpha: word.learned ? 0.2 : 0.6,
+                    ),
+                    fontSize: 12,
+                    height: 1,
+                  ),
+                ),
+              if (!widget.showTranslationFirst)
+                SizedBox(
+                  height: 14,
+                  child: MarkdownBody(
+                    data: displayedExample,
+                    styleSheet: MarkdownStyleSheet(
+                      p: TextStyle(
+                        color: Colors.white.withValues(
+                          alpha: word.learned ? 0.2 : 0.6,
+                        ),
+                        fontSize: 14,
+                        height: 1,
                       ),
-                      fontSize: 14,
-                      height: 1,
                     ),
                   ),
                 ),
-              ),
-              Text(
-                word.translation,
-                style: TextStyle(
-                  color: isVisible
-                      ? Colors.white.withValues(
-                          alpha: word.learned ? 0.2 : 0.4,
-                        )
-                      : Colors.transparent,
-                  fontSize: 12,
-                  height: 1,
+              if (widget.showTranslationFirst) const SizedBox(height: 4),
+              if (widget.showTranslationFirst)
+                SizedBox(
+                  height: 14,
+                  child: MarkdownBody(
+                    data: displayedExample,
+                    styleSheet: MarkdownStyleSheet(
+                      p: TextStyle(
+                        color: isVisible
+                            ? Colors.white.withValues(
+                                alpha: word.learned ? 0.2 : 0.6,
+                              )
+                            : Colors.transparent,
+                        fontSize: 14,
+                        height: 1,
+                      ),
+                    ),
+                  ),
+                )
+              else
+                Text(
+                  word.translation,
+                  style: TextStyle(
+                    color: isVisible
+                        ? Colors.white.withValues(
+                            alpha: word.learned ? 0.2 : 0.4,
+                          )
+                        : Colors.transparent,
+                    fontSize: 12,
+                    height: 1,
+                  ),
                 ),
-              ),
             ],
           ),
         ),
