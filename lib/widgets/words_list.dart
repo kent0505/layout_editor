@@ -126,29 +126,43 @@ class _WordsListState extends State<WordsList> {
         Positioned(
           right: 20,
           bottom: 20,
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _showOnlyHighlighted = !_showOnlyHighlighted;
-                  });
-                },
-                icon: Icon(
-                  _showOnlyHighlighted
-                      ? Icons.visibility
-                      : Icons.visibility_off,
+              Text(
+                '${_learnedIds.length} / ${_words?.length ?? 0}',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
                 ),
               ),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _showTranslationFirst = !_showTranslationFirst;
-                  });
-                },
-                icon: Icon(
-                  _showTranslationFirst ? Icons.translate : Icons.g_translate,
-                ),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _showOnlyHighlighted = !_showOnlyHighlighted;
+                      });
+                    },
+                    icon: Icon(
+                      _showOnlyHighlighted
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _showTranslationFirst = !_showTranslationFirst;
+                      });
+                    },
+                    icon: Icon(
+                      _showTranslationFirst
+                          ? Icons.translate
+                          : Icons.g_translate,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -197,85 +211,86 @@ class __WordTileState extends State<_WordTile> {
           },
         ),
         const SizedBox(width: 8),
-        GestureDetector(
-          onTapDown: (_) {
-            setState(() {
-              isVisible = true;
-            });
-          },
-          onTapUp: (_) {
-            setState(() {
-              isVisible = false;
-            });
-          },
-          onTapCancel: () {
-            setState(() {
-              isVisible = false;
-            });
-          },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (widget.showTranslationFirst)
-                Text(
-                  word.translation,
-                  style: TextStyle(
-                    color: Colors.white.withValues(
-                      alpha: word.learned ? 0.2 : 0.6,
+        Expanded(
+          child: GestureDetector(
+            onTap: () async {
+              if (!isVisible) {
+                setState(() {
+                  isVisible = true;
+                });
+                await Future.delayed(Duration(seconds: 1), () {
+                  if (mounted) {
+                    setState(() {
+                      isVisible = false;
+                    });
+                  }
+                });
+              }
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (widget.showTranslationFirst)
+                  Text(
+                    word.translation,
+                    style: TextStyle(
+                      color: Colors.white.withValues(
+                        alpha: word.learned ? 0.2 : 0.6,
+                      ),
+                      fontSize: 12,
+                      height: 1,
                     ),
-                    fontSize: 12,
-                    height: 1,
                   ),
-                ),
-              if (!widget.showTranslationFirst)
-                SizedBox(
-                  height: 14,
-                  child: MarkdownBody(
-                    data: displayedExample,
-                    styleSheet: MarkdownStyleSheet(
-                      p: TextStyle(
-                        color: Colors.white.withValues(
-                          alpha: word.learned ? 0.2 : 0.6,
+                if (!widget.showTranslationFirst)
+                  SizedBox(
+                    height: 14,
+                    child: MarkdownBody(
+                      data: displayedExample,
+                      styleSheet: MarkdownStyleSheet(
+                        p: TextStyle(
+                          color: Colors.white.withValues(
+                            alpha: word.learned ? 0.2 : 0.6,
+                          ),
+                          fontSize: 14,
+                          height: 1,
                         ),
-                        fontSize: 14,
-                        height: 1,
                       ),
                     ),
                   ),
-                ),
-              if (widget.showTranslationFirst) const SizedBox(height: 4),
-              if (widget.showTranslationFirst)
-                SizedBox(
-                  height: 14,
-                  child: MarkdownBody(
-                    data: displayedExample,
-                    styleSheet: MarkdownStyleSheet(
-                      p: TextStyle(
-                        color: isVisible
-                            ? Colors.white.withValues(
-                                alpha: word.learned ? 0.2 : 0.6,
-                              )
-                            : Colors.transparent,
-                        fontSize: 14,
-                        height: 1,
+                if (widget.showTranslationFirst) const SizedBox(height: 4),
+                if (widget.showTranslationFirst)
+                  SizedBox(
+                    height: 14,
+                    child: MarkdownBody(
+                      data: displayedExample,
+                      styleSheet: MarkdownStyleSheet(
+                        p: TextStyle(
+                          color: isVisible
+                              ? Colors.white.withValues(
+                                  alpha: word.learned ? 0.2 : 0.6,
+                                )
+                              : Colors.transparent,
+                          fontSize: 14,
+                          height: 1,
+                        ),
                       ),
                     ),
+                  )
+                else
+                  Text(
+                    word.translation,
+                    style: TextStyle(
+                      color: isVisible
+                          ? Colors.white.withValues(
+                              alpha: word.learned ? 0.2 : 0.4,
+                            )
+                          : Colors.transparent,
+                      fontSize: 12,
+                      height: 1,
+                    ),
                   ),
-                )
-              else
-                Text(
-                  word.translation,
-                  style: TextStyle(
-                    color: isVisible
-                        ? Colors.white.withValues(
-                            alpha: word.learned ? 0.2 : 0.4,
-                          )
-                        : Colors.transparent,
-                    fontSize: 12,
-                    height: 1,
-                  ),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       ],
