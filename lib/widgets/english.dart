@@ -30,6 +30,9 @@ class English extends StatelessWidget {
           data: snapshot.data ?? '',
           styleSheet: MarkdownStyleSheet(
             tableHeadAlign: TextAlign.start,
+            tableBorder: TableBorder.all(
+              color: AppColors.text,
+            ),
             tableBody: TextStyle(
               color: AppColors.text,
               fontSize: 12,

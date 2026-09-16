@@ -267,9 +267,9 @@ class _LayoutEditorState extends State<LayoutEditor> {
                 ),
                 IconButton(
                   onPressed: canCopy ? exportLevel : null,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.copy,
-                    color: AppColors.text,
+                    color: canCopy ? AppColors.text : AppColors.text2,
                   ),
                 ),
                 IconButton(

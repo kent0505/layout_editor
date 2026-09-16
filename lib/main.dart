@@ -74,6 +74,7 @@ class _TestScreenState extends State<TestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: IndexedStack(
         index: _currentIndex,
         children: _screens,

@@ -34,19 +34,11 @@ class _WordsListState extends State<WordsList> {
     }
     final learned = words.where((word) => word.learned).toList()..shuffle();
     final notLearned = words.where((word) => !word.learned).toList()..shuffle();
-
     _words = [
       ...learned,
       ...notLearned,
     ];
     return words;
-  }
-
-  void shuffleWords() {
-    if (_words == null) return;
-    setState(() {
-      _words!.shuffle();
-    });
   }
 
   List<Word> parseMarkdown(String markdown) {
@@ -209,7 +201,7 @@ class __WordTileState extends State<_WordTile> {
                 setState(() {
                   isVisible = true;
                 });
-                await Future.delayed(Duration(seconds: 1), () {
+                await Future.delayed(Duration(seconds: 2), () {
                   if (mounted) {
                     setState(() {
                       isVisible = false;
@@ -226,6 +218,7 @@ class __WordTileState extends State<_WordTile> {
                     word.translation,
                     style: TextStyle(
                       color: word.learned ? AppColors.text2 : AppColors.text,
+                      fontWeight: FontWeight.w600,
                       fontSize: 12,
                       height: 1,
                     ),
@@ -240,6 +233,15 @@ class __WordTileState extends State<_WordTile> {
                           color:
                               word.learned ? AppColors.text2 : AppColors.text,
                           fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          height: 1,
+                        ),
+                        strong: TextStyle(
+                          color: word.learned
+                              ? Colors.redAccent.withValues(alpha: 0.3)
+                              : Colors.redAccent,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w900,
                           height: 1,
                         ),
                       ),
@@ -259,6 +261,17 @@ class __WordTileState extends State<_WordTile> {
                                   : AppColors.text
                               : Colors.transparent,
                           fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          height: 1,
+                        ),
+                        strong: TextStyle(
+                          color: isVisible
+                              ? word.learned
+                                  ? Colors.redAccent.withValues(alpha: 0.3)
+                                  : Colors.redAccent
+                              : Colors.transparent,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w900,
                           height: 1,
                         ),
                       ),
@@ -274,6 +287,7 @@ class __WordTileState extends State<_WordTile> {
                               : AppColors.text
                           : Colors.transparent,
                       fontSize: 12,
+                      fontWeight: FontWeight.w600,
                       height: 1,
                     ),
                   ),
@@ -290,7 +304,6 @@ class Word {
   final int id;
   final String example;
   final String translation;
-
   bool learned;
 
   Word({
