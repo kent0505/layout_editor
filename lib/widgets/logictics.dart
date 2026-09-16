@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 
+import '../main.dart';
+
 class Logictics extends StatelessWidget {
   const Logictics({super.key});
 
@@ -18,38 +20,32 @@ class Logictics extends StatelessWidget {
           return SizedBox();
         }
 
-        if (snapshot.hasError) {
-          return Center(
-            child: Text('Error: ${snapshot.error}'),
-          );
-        }
-
         return Markdown(
           data: snapshot.data ?? '',
           styleSheet: MarkdownStyleSheet(
             tableHeadAlign: TextAlign.start,
             tableBody: TextStyle(
-              color: Colors.white.withValues(alpha: 0.5),
+              color: AppColors.text,
               fontSize: 12,
               height: 1,
             ),
             h1: TextStyle(
-              color: Colors.white.withValues(alpha: 0.6),
+              color: AppColors.text,
               fontWeight: FontWeight.w700,
             ),
             h2: TextStyle(
-              color: Colors.white.withValues(alpha: 0.6),
+              color: AppColors.text,
               fontWeight: FontWeight.w700,
             ),
             h3: TextStyle(
-              color: Colors.white.withValues(alpha: 0.6),
+              color: AppColors.text,
               fontWeight: FontWeight.w700,
             ),
             p: TextStyle(
-              color: Colors.white.withValues(alpha: 0.5),
+              color: AppColors.text,
             ),
             listBullet: TextStyle(
-              color: Colors.white.withValues(alpha: 0.5),
+              color: AppColors.text,
             ),
           ),
         );

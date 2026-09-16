@@ -209,14 +209,17 @@ class _LayoutEditorState extends State<LayoutEditor> {
                 width: 50,
                 height: 70,
                 decoration: BoxDecoration(
-                  border: Border.all(width: 1, color: Colors.black),
+                  border: Border.all(
+                    width: 1,
+                    color: AppColors.text,
+                  ),
                 ),
                 child: Center(
                   child: Text(
                     '$x:$y',
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.white.withValues(alpha: 0.1),
+                      color: AppColors.text2,
                     ),
                   ),
                 ),
@@ -250,19 +253,31 @@ class _LayoutEditorState extends State<LayoutEditor> {
               children: [
                 Text(
                   'Tiles: ${tiles.length}',
-                  style: const TextStyle(fontSize: 16, color: Colors.black),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: AppColors.text,
+                  ),
                 ),
                 IconButton(
                   onPressed: canUndo ? undo : null,
-                  icon: const Icon(Icons.undo),
+                  icon: const Icon(
+                    Icons.undo,
+                    color: AppColors.text,
+                  ),
                 ),
                 IconButton(
                   onPressed: canCopy ? exportLevel : null,
-                  icon: const Icon(Icons.copy),
+                  icon: const Icon(
+                    Icons.copy,
+                    color: AppColors.text,
+                  ),
                 ),
                 IconButton(
                   onPressed: clearBoard,
-                  icon: const Icon(Icons.clear),
+                  icon: const Icon(
+                    Icons.clear,
+                    color: AppColors.text,
+                  ),
                 ),
               ],
             ),

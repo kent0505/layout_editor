@@ -8,6 +8,12 @@ import 'widgets/layout_editor.dart';
 import 'widgets/logictics.dart';
 import 'widgets/words_list.dart';
 
+abstract final class AppColors {
+  static const Color bg = Color(0xffF1E6D0);
+  static const Color text = Color(0xff493A2C);
+  static Color text2 = Color(0xff493A2C).withValues(alpha: 0.3);
+}
+
 void logger(Object message) {
   developer.log(message.toString());
 }
@@ -23,8 +29,9 @@ void main() async {
       theme: ThemeData(
         useMaterial3: false,
         brightness: Brightness.dark,
+        scaffoldBackgroundColor: Color(0xffF1E6D0),
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Color(0xff333333),
+          seedColor: Color(0xff000000),
           brightness: Brightness.dark,
           surface: Color(0xff333333),
         ),
@@ -33,6 +40,7 @@ void main() async {
           checkColor: WidgetStateProperty.all(Colors.white),
           side: BorderSide(color: Color(0xff555555)),
         ),
+        iconTheme: IconThemeData(color: AppColors.text),
       ),
       home: const TestScreen(),
     ),

@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../main.dart';
+
 class WordsList extends StatefulWidget {
   const WordsList({super.key, required this.path});
 
@@ -23,13 +25,6 @@ class _WordsListState extends State<WordsList> {
   bool _showOnlyHighlighted = false;
   bool _showTranslationFirst = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _storage = WordsStorage(key: widget.path);
-    _wordsFuture = loadWords();
-  }
-
   Future<List<Word>> loadWords() async {
     final markdown = await rootBundle.loadString(widget.path);
     final words = parseMarkdown(markdown);
@@ -37,7 +32,13 @@ class _WordsListState extends State<WordsList> {
     for (final word in words) {
       word.learned = _learnedIds.contains(word.id);
     }
-    _words = words..shuffle();
+    final learned = words.where((word) => word.learned).toList()..shuffle();
+    final notLearned = words.where((word) => !word.learned).toList()..shuffle();
+
+    _words = [
+      ...learned,
+      ...notLearned,
+    ];
     return words;
   }
 
@@ -74,6 +75,13 @@ class _WordsListState extends State<WordsList> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _storage = WordsStorage(key: widget.path);
+    _wordsFuture = loadWords();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
@@ -82,17 +90,6 @@ class _WordsListState extends State<WordsList> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return SizedBox();
-            }
-
-            if (snapshot.hasError) {
-              return Center(
-                child: Text(
-                  'Error: ${snapshot.error}',
-                  style: const TextStyle(
-                    color: Colors.red,
-                  ),
-                ),
-              );
             }
 
             final words = _words ?? [];
@@ -132,37 +129,31 @@ class _WordsListState extends State<WordsList> {
               Text(
                 '${_learnedIds.length} / ${_words?.length ?? 0}',
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: AppColors.text,
                   fontSize: 12,
                 ),
               ),
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _showOnlyHighlighted = !_showOnlyHighlighted;
-                      });
-                    },
-                    icon: Icon(
-                      _showOnlyHighlighted
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _showTranslationFirst = !_showTranslationFirst;
-                      });
-                    },
-                    icon: Icon(
-                      _showTranslationFirst
-                          ? Icons.translate
-                          : Icons.g_translate,
-                    ),
-                  ),
-                ],
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    _showOnlyHighlighted = !_showOnlyHighlighted;
+                  });
+                },
+                icon: Icon(
+                  _showOnlyHighlighted
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    _showTranslationFirst = !_showTranslationFirst;
+                  });
+                },
+                icon: Icon(
+                  _showTranslationFirst ? Icons.translate : Icons.g_translate,
+                ),
               ),
             ],
           ),
@@ -234,9 +225,7 @@ class __WordTileState extends State<_WordTile> {
                   Text(
                     word.translation,
                     style: TextStyle(
-                      color: Colors.white.withValues(
-                        alpha: word.learned ? 0.2 : 0.6,
-                      ),
+                      color: word.learned ? AppColors.text2 : AppColors.text,
                       fontSize: 12,
                       height: 1,
                     ),
@@ -248,9 +237,8 @@ class __WordTileState extends State<_WordTile> {
                       data: displayedExample,
                       styleSheet: MarkdownStyleSheet(
                         p: TextStyle(
-                          color: Colors.white.withValues(
-                            alpha: word.learned ? 0.2 : 0.6,
-                          ),
+                          color:
+                              word.learned ? AppColors.text2 : AppColors.text,
                           fontSize: 14,
                           height: 1,
                         ),
@@ -266,9 +254,9 @@ class __WordTileState extends State<_WordTile> {
                       styleSheet: MarkdownStyleSheet(
                         p: TextStyle(
                           color: isVisible
-                              ? Colors.white.withValues(
-                                  alpha: word.learned ? 0.2 : 0.6,
-                                )
+                              ? word.learned
+                                  ? AppColors.text2
+                                  : AppColors.text
                               : Colors.transparent,
                           fontSize: 14,
                           height: 1,
@@ -281,9 +269,9 @@ class __WordTileState extends State<_WordTile> {
                     word.translation,
                     style: TextStyle(
                       color: isVisible
-                          ? Colors.white.withValues(
-                              alpha: word.learned ? 0.2 : 0.4,
-                            )
+                          ? word.learned
+                              ? AppColors.text2
+                              : AppColors.text
                           : Colors.transparent,
                       fontSize: 12,
                       height: 1,
