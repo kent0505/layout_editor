@@ -29,6 +29,13 @@ class Logictics extends StatelessWidget {
             ),
             tableBody: TextStyle(
               color: AppColors.text,
+              fontWeight: FontWeight.w600,
+              fontSize: 12,
+              height: 1,
+            ),
+            strong: TextStyle(
+              color: AppColors.strong,
+              fontWeight: FontWeight.w900,
               fontSize: 12,
               height: 1,
             ),
@@ -46,9 +53,14 @@ class Logictics extends StatelessWidget {
             ),
             p: TextStyle(
               color: AppColors.text,
+              fontWeight: FontWeight.w600,
+              fontSize: 12,
             ),
             listBullet: TextStyle(
               color: AppColors.text,
+              fontWeight: FontWeight.w900,
+              fontSize: 12,
+              height: 1,
             ),
           ),
         );

@@ -131,26 +131,26 @@
 
 |English|Перевод|Пример|
 |---|---|---|
-| **refuse**                | отказаться, отказываться        | **She refused to help me.**|
-| **decline**               | отклонить, отказаться (вежливо) | **He declined the offer.**|
-| **reject**                | отвергнуть, отклонить           | **She rejected his proposal.**|
-| **deny**                  | отказать в чём-либо             | **They denied him access.**|
-| **turn down**             | отказаться от чего-либо         | **She turned down the job.**|
-| **say no**                | сказать «нет», отказаться       | **He said no to the offer.**|
-| **back out**              | отказаться от договорённости    | **He backed out of the deal.**|
-| **withdraw**              | отказаться / выйти из участия   | **She withdrew from the competition.**|
-| **cancel**                | отменить                        | **They cancelled the meeting.**|
-| **opt out**               | отказаться от участия           | **She opted out of the program.**|
-| **give up**               | отказаться от идеи / попытки    | **He gave up the idea.**|
-| **abandon**               | отказаться, бросить             | **They abandoned the plan.**|
-| **dismiss**               | отклонить, отвергнуть           | **The manager dismissed the suggestion.**|
-| **object**                | возражать, выступать против     | **She objected to the proposal.**|
-| **protest**               | протестовать, возражать         | **He protested against the decision.**|
-| **decline an invitation** | отклонить приглашение           | **She declined the invitation.**|
-| **refuse an offer**       | отказаться от предложения       | **He refused the offer.**|
-| **turn someone down**     | отказать кому-либо              | **She turned him down.**|
-| **reject a request**      | отклонить просьбу               | **They rejected my request.**|
-| **deny a request**        | отказать в просьбе              | **The company denied his request.**|
+| refuse                | отказаться, отказываться        | She refused to help me.|
+| decline               | отклонить, отказаться (вежливо) | He declined the offer.|
+| reject                | отвергнуть, отклонить           | She rejected his proposal.|
+| deny                  | отказать в чём-либо             | They denied him access.|
+| turn down             | отказаться от чего-либо         | She turned down the job.|
+| say no                | сказать «нет», отказаться       | He said no to the offer.|
+| back out              | отказаться от договорённости    | He backed out of the deal.|
+| withdraw              | отказаться / выйти из участия   | She withdrew from the competition.|
+| cancel                | отменить                        | They cancelled the meeting.|
+| opt out               | отказаться от участия           | She opted out of the program.|
+| give up               | отказаться от идеи / попытки    | He gave up the idea.|
+| abandon               | отказаться, бросить             | They abandoned the plan.|
+| dismiss               | отклонить, отвергнуть           | The manager dismissed the suggestion.|
+| object                | возражать, выступать против     | She objected to the proposal.|
+| protest               | протестовать, возражать         | He protested against the decision.|
+| decline an invitation | отклонить приглашение           | She declined the invitation.|
+| refuse an offer       | отказаться от предложения       | He refused the offer.|
+| turn someone down     | отказать кому-либо              | She turned him down.|
+| reject a request      | отклонить просьбу               | They rejected my request.|
+| deny a request        | отказать в просьбе              | The company denied his request.|
 
 ## Linking Words
 

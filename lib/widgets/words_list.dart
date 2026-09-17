@@ -228,6 +228,7 @@ class __WordTileState extends State<_WordTile> {
                     height: 14,
                     child: MarkdownBody(
                       data: displayedExample,
+                      selectable: true,
                       styleSheet: MarkdownStyleSheet(
                         p: TextStyle(
                           color:
@@ -238,8 +239,8 @@ class __WordTileState extends State<_WordTile> {
                         ),
                         strong: TextStyle(
                           color: word.learned
-                              ? Colors.redAccent.withValues(alpha: 0.3)
-                              : Colors.redAccent,
+                              ? AppColors.strong.withValues(alpha: 0.3)
+                              : AppColors.strong,
                           fontSize: 14,
                           fontWeight: FontWeight.w900,
                           height: 1,
@@ -253,6 +254,7 @@ class __WordTileState extends State<_WordTile> {
                     height: 14,
                     child: MarkdownBody(
                       data: displayedExample,
+                      selectable: true,
                       styleSheet: MarkdownStyleSheet(
                         p: TextStyle(
                           color: isVisible
@@ -267,8 +269,8 @@ class __WordTileState extends State<_WordTile> {
                         strong: TextStyle(
                           color: isVisible
                               ? word.learned
-                                  ? Colors.redAccent.withValues(alpha: 0.3)
-                                  : Colors.redAccent
+                                  ? AppColors.strong.withValues(alpha: 0.3)
+                                  : AppColors.strong
                               : Colors.transparent,
                           fontSize: 14,
                           fontWeight: FontWeight.w900,

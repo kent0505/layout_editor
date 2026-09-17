@@ -9,9 +9,10 @@ import 'widgets/logictics.dart';
 import 'widgets/words_list.dart';
 
 abstract final class AppColors {
-  static const Color bg = Color(0xffF1E6D0);
-  static const Color text = Color(0xff493A2C);
-  static Color text2 = Color(0xff493A2C).withValues(alpha: 0.3);
+  static const Color bg = Color(0xff555555);
+  static const Color text = Color(0xff888888);
+  static const Color strong = Colors.redAccent;
+  static Color text2 = Color(0xff888888).withValues(alpha: 0.3);
 }
 
 void logger(Object message) {
@@ -29,7 +30,7 @@ void main() async {
       theme: ThemeData(
         useMaterial3: false,
         brightness: Brightness.dark,
-        scaffoldBackgroundColor: Color(0xffF1E6D0),
+        scaffoldBackgroundColor: AppColors.bg,
         colorScheme: ColorScheme.fromSeed(
           seedColor: Color(0xff000000),
           brightness: Brightness.dark,
@@ -74,10 +75,6 @@ class _TestScreenState extends State<TestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
       body: IndexedStack(
         index: _currentIndex,
         children: _screens,
