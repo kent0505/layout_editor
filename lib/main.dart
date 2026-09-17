@@ -9,8 +9,8 @@ import 'widgets/logictics.dart';
 import 'widgets/words_list.dart';
 
 abstract final class AppColors {
-  static const Color bg = Color(0xff555555);
-  static const Color text = Color(0xff888888);
+  static const Color bg = Color(0xffffffff);
+  static Color text = Color(0xff444444);
   static const Color strong = Colors.redAccent;
   static Color text2 = Color(0xff888888).withValues(alpha: 0.3);
 }
@@ -32,7 +32,7 @@ void main() async {
         brightness: Brightness.dark,
         scaffoldBackgroundColor: AppColors.bg,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Color(0xff000000),
+          seedColor: Color(0xff333333),
           brightness: Brightness.dark,
           surface: Color(0xff333333),
         ),

@@ -120,7 +120,7 @@ class _WordsListState extends State<WordsList> {
             children: [
               Text(
                 '${_learnedIds.length} / ${_words?.length ?? 0}',
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.text,
                   fontSize: 12,
                 ),
@@ -228,7 +228,6 @@ class __WordTileState extends State<_WordTile> {
                     height: 14,
                     child: MarkdownBody(
                       data: displayedExample,
-                      selectable: true,
                       styleSheet: MarkdownStyleSheet(
                         p: TextStyle(
                           color:
@@ -254,7 +253,6 @@ class __WordTileState extends State<_WordTile> {
                     height: 14,
                     child: MarkdownBody(
                       data: displayedExample,
-                      selectable: true,
                       styleSheet: MarkdownStyleSheet(
                         p: TextStyle(
                           color: isVisible

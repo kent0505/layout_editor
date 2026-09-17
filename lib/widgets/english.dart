@@ -33,12 +33,6 @@ class English extends StatelessWidget {
             tableBorder: TableBorder.all(
               color: AppColors.text,
             ),
-            tableHead: TextStyle(
-              color: AppColors.text2,
-              fontWeight: FontWeight.w900,
-              fontSize: 12,
-              height: 1,
-            ),
             tableBody: TextStyle(
               color: AppColors.text,
               fontWeight: FontWeight.w600,

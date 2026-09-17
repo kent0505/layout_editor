@@ -253,14 +253,14 @@ class _LayoutEditorState extends State<LayoutEditor> {
               children: [
                 Text(
                   'Tiles: ${tiles.length}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     color: AppColors.text,
                   ),
                 ),
                 IconButton(
                   onPressed: canUndo ? undo : null,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.undo,
                     color: AppColors.text,
                   ),
@@ -274,7 +274,7 @@ class _LayoutEditorState extends State<LayoutEditor> {
                 ),
                 IconButton(
                   onPressed: clearBoard,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.clear,
                     color: AppColors.text,
                   ),
