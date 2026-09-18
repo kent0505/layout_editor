@@ -9,10 +9,10 @@ import 'widgets/logictics.dart';
 import 'widgets/words_list.dart';
 
 abstract final class AppColors {
-  static const Color bg = Color(0xffffffff);
-  static Color text = Color(0xff444444);
+  static const Color bg = Color(0xff333333);
   static const Color strong = Colors.redAccent;
-  static Color text2 = Color(0xff888888).withValues(alpha: 0.3);
+  static Color text = Colors.white.withValues(alpha: 0.6);
+  static Color text2 = Colors.white.withValues(alpha: 0.2);
 }
 
 void logger(Object message) {
