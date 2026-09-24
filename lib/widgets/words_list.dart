@@ -93,6 +93,7 @@ class _WordsListState extends State<WordsList> {
                 final word = words[index];
 
                 return _WordTile(
+                  index: index + 1,
                   word: word,
                   showOnlyHighlighted: _showOnlyHighlighted,
                   showTranslationFirst: _showTranslationFirst,
@@ -157,12 +158,14 @@ class _WordsListState extends State<WordsList> {
 
 class _WordTile extends StatefulWidget {
   const _WordTile({
+    required this.index,
     required this.word,
     required this.showOnlyHighlighted,
     required this.showTranslationFirst,
     required this.onChanged,
   });
 
+  final int index;
   final Word word;
   final bool showOnlyHighlighted;
   final bool showTranslationFirst;
@@ -293,6 +296,13 @@ class __WordTileState extends State<_WordTile> {
                   ),
               ],
             ),
+          ),
+        ),
+        Text(
+          widget.index.toString(),
+          style: TextStyle(
+            color: AppColors.text2,
+            fontSize: 12,
           ),
         ),
       ],

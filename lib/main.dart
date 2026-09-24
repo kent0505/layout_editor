@@ -12,7 +12,7 @@ abstract final class AppColors {
   static const Color bg = Color(0xff333333);
   static const Color strong = Colors.redAccent;
   static Color text = Colors.white.withValues(alpha: 0.6);
-  static Color text2 = Colors.white.withValues(alpha: 0.2);
+  static Color text2 = Colors.white.withValues(alpha: 0.3);
 }
 
 void logger(Object message) {
