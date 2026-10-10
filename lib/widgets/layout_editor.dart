@@ -25,11 +25,10 @@ class _LayoutEditorState extends State<LayoutEditor> {
 
   void exportLevel() async {
     final buffer = StringBuffer();
-    buffer.writeln('import \'../models/layout.dart\';');
-    buffer.writeln('const level1 = [');
+    buffer.writeln('const level = [');
     for (final layout in layouts) {
       buffer.writeln(
-        '  Layout(x: ${layout.x}, y: ${layout.y}, z: ${layout.z}),',
+        '  Layout([${layout.x}, ${layout.y}, ${layout.z}]),',
       );
     }
     buffer.writeln('];');
